@@ -304,7 +304,13 @@
       // 粒子基类
       class Particle {
         constructor(geometry, material, type = "BASIC") {
-          this.mesh = new THREE.Mesh(geometry, material);
+          // Fix: Handle null geometry/material by using default Mesh constructor if they are null
+          if (geometry) {
+            this.mesh = new THREE.Mesh(geometry, material);
+          } else {
+            this.mesh = new THREE.Mesh();
+          }
+
           this.type = type;
           this.targetPosition = new THREE.Vector3();
           this.originalPosition = this.mesh.position.clone();
