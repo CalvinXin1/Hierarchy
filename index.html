@@ -9,17 +9,12 @@
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <!-- MediaPipe Vision Bundle (UMD) -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/vision_bundle.js"
-      crossorigin="anonymous"
-    ></script>
-
     <script type="importmap">
       {
         "imports": {
           "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+          "@mediapipe/tasks-vision": "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/vision_bundle.js"
         }
       }
     </script>
@@ -202,9 +197,13 @@
       import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
       import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
       import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+      import * as MP from "@mediapipe/tasks-vision";
 
-      // MediaPipe globals from script tag
-      // const { HandLandmarker, FilesetResolver } = window; // They are global classes
+      // Robust import for MediaPipe
+      const HandLandmarker =
+        MP.HandLandmarker || (MP.default && MP.default.HandLandmarker);
+      const FilesetResolver =
+        MP.FilesetResolver || (MP.default && MP.default.FilesetResolver);
 
       // 4. 状态机与动画逻辑
       const STATE = {
